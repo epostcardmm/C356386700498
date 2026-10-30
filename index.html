@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Gift For You ❤️</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #ff758c;
+            --secondary-pink: #ff7eb3;
+            --rose-red: #e63946;
+            --soft-bg: #eef5fc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--soft-bg);
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
+
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .font-cursive {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(100, 149, 237, 0.15);
+        }
+
+        .glass-card-dark {
+            background: rgba(240, 246, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 40px 0 rgba(70, 130, 180, 0.12);
+        }
+
+        /* Heartbeat Animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.15); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
+
+        .animate-heartbeat {
+            animation: heartbeat 2.5s infinite;
+        }
+
+        /* Floating Background Canvas */
+        #heart-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Falling Floating GIF Animation */
+        @keyframes floatDown {
+            0% {
+                top: -120px;
+                opacity: 0;
+                transform: translateX(-50%) rotate(-10deg) scale(0.8);
+            }
+            20% { opacity: 1; }
+            50% { transform: translateX(calc(-50% + 20px)) rotate(10deg) scale(1.05); }
+            100% {
+                top: 45vh;
+                opacity: 1;
+                transform: translateX(-50%) rotate(-5deg) scale(1);
+            }
+        }
+
+        .falling-gif-anim {
+            position: fixed;
+            left: 50%;
+            z-index: 1000;
+            animation: floatDown 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            cursor: pointer;
+        }
+
+        /* Click Heart Particle Effect */
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: popAndFade 1.2s ease-out forwards;
+        }
+
+        @keyframes popAndFade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+            }
+            50% {
+                opacity: 0.9;
+                transform: translate(-50%, -100px) scale(1.3) rotate(15deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -160px) scale(0.8) rotate(-15deg);
+            }
+        }
+
+        /* COMPACT POLAROID FILM ALBUM STYLES */
+        .polaroid-container {
+            background: linear-gradient(180deg, #182848 0%, #2980b9 50%, #182848 100%);
+            border-radius: 1.5rem;
+            padding: 2rem 1rem;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+            max-width: 340px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .star-decor {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .polaroid-camera {
+            background: #f8f9fa;
+            border-radius: 18px 18px 10px 10px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: relative;
+            margin-bottom: -10px;
+            z-index: 20;
+            border: 1px solid #e2e8f0;
+        }
+
+        .camera-lens {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #0f172a 30%, #334155 60%, #cbd5e1 100%);
+            border: 4px solid #f1f5f9;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.8), 0 3px 8px rgba(0,0,0,0.2);
+            margin: 0 auto;
+        }
+
+        .camera-slot {
+            height: 8px;
+            background: #1e293b;
+            border-radius: 4px;
+            margin-top: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .film-strip {
+            background: #ffffff;
+            padding: 10px 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 10;
+            border-left: 8px solid #ffffff;
+            border-right: 8px solid #ffffff;
+        }
+
+        .film-frame {
+            background: #000;
+            margin-bottom: 12px;
+            position: relative;
+            border: 2px solid #1e293b;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .film-frame:hover {
+            transform: scale(1.02);
+        }
+
+        .film-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .film-edge-text {
+            position: absolute;
+            font-size: 0.5rem;
+            font-family: monospace;
+            color: #64748b;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .sticker {
+            position: absolute;
+            z-index: 30;
+            filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.3));
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
+    </style>
+</head>
+<body class="relative min-h-screen">
+
+    <canvas id="heart-canvas"></canvas>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 py-8 space-y-16">
+
+        <header class="text-center space-y-6 pt-6">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-blue-100/80 text-blue-600 text-sm font-semibold tracking-wide shadow-sm border border-blue-200 animate-pulse">
+                ✨ Created with endless love ✨
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold font-handwriting text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-sky-500 leading-tight drop-shadow-sm">
+                A Special Gift For You ❤️
+            </h1>
+            <p class="text-gray-600 max-w-xl mx-auto text-base md:text-lg">
+                To the one who brings sunshine, laughter, and magic into my life every single day.
+            </p>
+
+            <!-- Interactive Gift Box Reveal -->
+            <div id="gift-box-wrapper" class="relative py-6 flex flex-col items-center justify-center">
+                <div id="gift-box" onclick="openGift()" class="cursor-pointer group relative transition-transform duration-300 hover:scale-105 active:scale-95">
+                    <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-tr from-sky-400 to-indigo-500 rounded-2xl shadow-xl flex items-center justify-center relative overflow-hidden animate-heartbeat">
+                        <div class="absolute inset-y-0 w-6 bg-yellow-300/90 shadow-md"></div>
+                        <div class="absolute inset-x-0 h-6 bg-yellow-300/90 shadow-md"></div>
+                        <i class="fa-solid font-bold text-3xl text-yellow-200 z-10 drop-shadow-md group-hover:rotate-12 transition-transform">🎁</i>
+                    </div>
+                    <p class="mt-3 text-xs md:text-sm text-indigo-600 font-medium tracking-wide">Tap the box to open your surprise!</p>
+                </div>
+
+                <!-- Password Form Input Box -->
+                <div id="password-form" class="hidden glass-card-dark p-6 rounded-2xl max-w-md w-full border border-blue-200 text-center shadow-2xl">
+                    <span class="text-3xl">🔒 💖</span>
+                    <h3 class="text-xl font-bold text-indigo-600 font-handwriting mt-1">Enter Secret Password</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-4">Hint: How many days have passed since our anniversary? (28.1.2026)</p>
+                    
+                    <div class="flex flex-col gap-3">
+                        <input type="password" id="pass-input" placeholder="Enter number of days..." class="w-full px-4 py-2.5 rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center font-semibold text-gray-700 bg-white/80">
+                        <button onclick="checkPassword()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium shadow-md hover:scale-[1.02] active:scale-95 transition-all">
+                            Unlock Surprise ✨
+                        </button>
+                    </div>
+                    <p id="error-msg" class="text-xs text-red-500 font-medium mt-2 hidden">Wrong Password! Please try again ❤️</p>
+                </div>
+
+                <!-- Gift Message (Unlocks only on correct Password) -->
+                <div id="gift-revealed-msg" class="hidden glass-card-dark p-6 rounded-2xl max-w-md w-full border border-blue-200 text-center animate-bounce">
+                    <span class="text-3xl">💖 🎉</span>
+                    <h3 class="text-xl font-bold text-indigo-600 font-handwriting mt-1">Surprise Unlocked!</h3>
+                    <p class="text-sm text-gray-700 mt-1">Scroll down to explore your customized memory gallery, sweet love notes, and music!</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT (HIDDEN UNTIL UNLOCKED) -->
+        <div id="main-content" class="hidden space-y-16">
+
+            <!-- MUSIC PLAYER SECTION -->
+            <section class="glass-card rounded-3xl p-6 md:p-8 max-w-2xl mx-auto border border-blue-100 shadow-xl transition-all">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-lg border-2 border-blue-200 shrink-0 group">
+                        <img id="track-art" src="https://i.pinimg.com/736x/f6/5c/3f/f65c3f9176a8521af6248ffdb3acd4d8.jpg" alt="Romantic Track Art" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+                        <div id="music-vinyl-icon" class="absolute bottom-2 right-2 text-white/90 text-lg">
+                            <i class="fa-solid fa-compact-disc animate-spin" style="animation-duration: 8s;"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 w-full text-center md:text-left space-y-3">
+                        <div>
+                            <span id="track-artist" class="text-xs uppercase font-bold text-indigo-500 tracking-wider">Lullaby</span>
+                            <h3 id="track-title" class="text-xl md:text-2xl font-bold text-gray-800">Zenith🌸</h3>
+                        </div>
+
+                        <div class="space-y-1">
+                            <input type="range" id="progress-bar" value="0" max="100" class="w-full h-1.5 bg-blue-100 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                            <div class="flex justify-between text-xs text-gray-400 font-mono">
+                                <span id="current-time">0:00</span>
+                                <span id="total-duration">0:00</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center md:justify-start gap-4 pt-1">
+                            <button onclick="prevTrack()" class="text-indigo-400 hover:text-indigo-600 transition-colors p-2 text-lg" title="Previous Track">
+                                <i class="fa-solid fa-backward-step"></i>
+                            </button>
+                            <button id="play-btn" onclick="togglePlayPause()" class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-lg hover:shadow-indigo-300/50 hover:scale-105 active:scale-95 transition-all">
+                                <i id="play-icon" class="fa-solid fa-play ml-0.5"></i>
+                            </button>
+                            <button onclick="nextTrack()" class="text-indigo-400 hover:text-indigo-600 transition-colors p-2 text-lg" title="Next Track">
+                                <i class="fa-solid fa-forward-step"></i>
+                            </button>
+
+                            <button onclick="toggleMute()" class="ml-auto text-indigo-400 hover:text-indigo-600 text-lg p-2">
+                                <i id="volume-icon" class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio-player" preload="metadata" src="https://www.image2url.com/r2/default/audio/1793372124664-9765aa72-e392-46fe-a36a-b674be28c00e.mp3"></audio>
+            </section>
+
+            <!-- VIDEO SECTION -->
+            <section class="space-y-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold font-handwriting text-indigo-600">Our Special Memories Video 🎥</h2>
+                    <p class="text-sm text-gray-500">A cozy glimpse of our sweetest moments together</p>
+                </div>
+
+                <div class="glass-card rounded-3xl p-4 md:p-6 max-w-3xl mx-auto shadow-lg border border-blue-100">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden bg-black/90 shadow-inner group">
+                        <iframe 
+                            class="w-full h-full rounded-2xl" 
+                            src="https://www.youtube.com/embed/YU0LjtvLLjw?si=grAmMwkxTGTHr4P-" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMPACT POLAROID FILM STRIP PHOTO ALBUM -->
+            <section class="space-y-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold font-handwriting text-indigo-600">Vintage Polaroid Memories 📸</h2>
+                    <p class="text-sm text-gray-500">Click on any photo to expand and relive our memories</p>
+                </div>
+
+                <div class="polaroid-container">
+                    <!-- Stars Decor -->
+                    <i class="fa-solid fa-star star-decor" style="top: 15%; left: 6%;"></i>
+                    <i class="fa-regular fa-star star-decor" style="top: 35%; right: 5%;"></i>
+                    <i class="fa-solid fa-star star-decor" style="top: 60%; left: 4%;"></i>
+                    <i class="fa-regular fa-star star-decor" style="top: 78%; right: 6%;"></i>
+
+                    <!-- Polaroid Camera Body -->
+                    <div class="polaroid-camera">
+                        <div class="flex justify-between items-center mb-1.5 px-1">
+                            <div class="w-4 h-4 rounded-full bg-red-500 shadow-sm"></div>
+                            <div class="text-[10px] font-mono font-bold text-slate-400">POLAROID</div>
+                            <div class="w-4 h-4 rounded bg-slate-300 border border-slate-400 flex items-center justify-center text-[8px]">+</div>
+                        </div>
+                        <div class="camera-lens"></div>
+                        <div class="camera-slot"></div>
+                    </div>
+
+                    <!-- Film Roll/Strip -->
+                    <div class="film-strip">
+                        <!-- Film Frame 1 -->
+                        <div class="film-frame" onclick="openLightbox(this)" data-caption="Our Beautiful Date ✨">
+                            <span class="film-edge-text" style="top: 50%; left: -22px; transform: rotate(-90deg);">KODAK 400</span>
+                            <span class="film-edge-text" style="top: 15%; left: -16px;">► 42</span>
+                            <img src="https://i.ibb.co/27wcjjC6/IMG-20261030-212631.jpg" alt="Memory 1">
+                        </div>
+
+                        <!-- Film Frame 2 -->
+                        <div class="film-frame" onclick="openLightbox(this)" data-caption="Sweet Memories 🌅">
+                            <span class="film-edge-text" style="top: 50%; right: -22px; transform: rotate(90deg);">KODAK PORTRA</span>
+                            <span class="film-edge-text" style="top: 25%; right: -16px;">► 11</span>
+                            <img src="https://i.ibb.co/22jh34m/IMG-20261030-212616-354.jpg" alt="Memory 2">
+                        </div>
+
+                        <!-- Film Frame 3 -->
+                        <div class="film-frame" onclick="openLightbox(this)" data-caption="Endless Smiles ☕">
+                            <span class="film-edge-text" style="bottom: 15%; left: -16px;">► 43</span>
+                            <span class="film-edge-text" style="bottom: 10%; right: -16px;">► 12</span>
+                            <img src="https://i.ibb.co/RRGL34P/IMG-20261030-212616-874.jpg" alt="Memory 3">
+                        </div>
+                    </div>
+
+                    <!-- Scrapbook Stickers Overlay -->
+                    <div class="sticker text-2xl text-sky-300" style="top: 21%; left: -5px; transform: rotate(-15deg);">🎀</div>
+                    <div class="sticker text-2xl" style="top: 7%; right: 10px;">🌊</div>
+                    <div class="sticker text-2xl" style="top: 52%; right: -2px; transform: rotate(20deg);">⭐</div>
+                    <div class="sticker text-2xl" style="bottom: 25%; left: -2px;">📚</div>
+                    <div class="sticker text-3xl" style="bottom: 3%; right: -2px;">🐰</div>
+                </div>
+            </section>
+
+            <!-- BUTTON SECTION -->
+            <section class="text-center py-6">
+                <button onclick="triggerFallingGif()" class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-500 text-white font-semibold text-lg shadow-xl hover:shadow-indigo-400/50 hover:scale-105 active:scale-95 transition-all duration-300 animate-pulse">
+                    💌 Open My Heart Letter 💖
+                </button>
+            </section>
+
+        </div>
+
+        <!-- FALLING GIF OVERLAY -->
+        <div id="falling-gif-container" class="hidden">
+            <div id="falling-gif-element" onclick="openLetterFromGif()" class="falling-gif-anim group">
+                <div class="relative">
+                    <img src="https://i.ibb.co/prM0r7G5/download-13-removebg-preview.png" alt="Cute Heart Cat GIF" class="w-36 h-36 md:w-48 md:h-48 object-contain drop-shadow-[0_10px_25px_rgba(79,70,229,0.5)] transition-transform duration-300 group-hover:scale-110">
+                    <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs text-indigo-600 font-bold shadow-md animate-bounce border border-blue-200">
+                        ✨ Tap me to open! 💕
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center py-6 text-xs text-gray-500 border-t border-blue-100">
+            Made with unconditional love & heart ✨ Forever & Always
+        </footer>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="relative max-w-3xl w-full text-center space-y-4">
+            <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white text-3xl hover:text-blue-400 transition-colors">&times;</button>
+            <img id="lightbox-img" src="" alt="Enlarged view" class="max-h-[80vh] mx-auto rounded-2xl shadow-2xl border-2 border-white/20">
+            <p id="lightbox-caption" class="text-white font-handwriting text-2xl drop-shadow"></p>
+        </div>
+    </div>
+
+    <!-- LETTER MODAL -->
+    <div id="letter-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="glass-card-dark max-w-xl w-full p-6 md:p-8 rounded-3xl relative shadow-2xl border-2 border-blue-300 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors flex items-center justify-center text-lg">&times;</button>
+
+            <div class="text-center space-y-4">
+                <span class="text-4xl">💌</span>
+                <h3 class="text-3xl font-bold font-handwriting text-indigo-600">To My Dearest Love,</h3>
+                
+                <div class="text-left text-gray-700 text-sm md:text-base leading-relaxed space-y-3 font-serif italic border-t border-b border-blue-200 py-4 my-2">
+                    <p>❤️🫶January လမှာ သဲသဲဘဝထဲကိုရောက်ရှိလာခဲ့တဲ့ဘေဘီကို ကျေးဇူးအများကြီးတင်ပါတယ် သဲသဲအများကြီးဆိုးခဲ့တာတွေအတွက်လဲဒီစာလေးနဲ့ပဲတောင်းပန်ပါတယ်နော် </p>
+                    <p>အမြဲတမ်းမငြိုငြင်ပဲချစ်ပေးခဲ့လိုလဲကျေးဇူးပါ‌ချစ်သူလေးရေ ဘေဘီရောက်လာထဲကသဲသဲဘဝကအဓိပ္ပာယ်တွေအများကြီးရှိလာတာပါနော် ဆက်ပီးလဲသက်ဆုံးတိုင်ထိရှိနေပေးပါနော်ဘေဘီ အမြဲလဲချစ်နေပေးဖိုတောင်းဆိုပါတယ်နော်ဘေဘီ </p>
+                    <p>သဲသဲကလဲဘေဘီကိုများကြီးချစ်တာပါနော် ထာဝရအတူလက်တွဲသွားကြမယ်နော်ဘေဘီယောကျာ်း💞🫰😉</p>
+                </div>
+
+                <p class="font-handwriting text-2xl text-indigo-600 font-semibold">Forever Yours ❤️</p>
+                
+                <button onclick="closeLetterModal()" class="mt-4 px-6 py-2 rounded-full bg-indigo-500 text-white text-sm font-medium hover:bg-indigo-600 transition-colors shadow">
+                    Close Letter 💕
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* Floating Star & Heart Background Animation */
+        const canvas = document.getElementById('heart-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class FloatingParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 10 + 4;
+                this.speedY = Math.random() * 1.2 + 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.swing = Math.random() * 0.02;
+                this.swingAngle = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.swingAngle += this.swing;
+                this.x += Math.sin(this.swingAngle) * 0.5;
+
+                if (this.y < -20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#60a5fa';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const particles = Array.from({ length: 30 }, () => new FloatingParticle());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        /* Interactive Click Particles */
+        window.addEventListener('click', (e) => {
+            createClickHeart(e.clientX, e.clientY);
+        });
+
+        function createClickHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'click-heart text-2xl';
+            const icons = ['✨', '⭐', '💙', '🌊', '💕'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1200);
+        }
+
+        /* Calculate Anniversary Days for Password */
+        function getRequiredPassword() {
+            const anniDate = new Date('2026-01-28');
+            const today = new Date();
+            const diffTime = today - anniDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays.toString();
+        }
+
+        /* Gift Reveal Logic (Show Password Form) */
+        function openGift() {
+            const giftBox = document.getElementById('gift-box');
+            const passwordForm = document.getElementById('password-form');
+            
+            giftBox.style.display = 'none';
+            passwordForm.classList.remove('hidden');
+        }
+
+        /* Password Verification Logic */
+        function checkPassword() {
+            const userInput = document.getElementById('pass-input').value.trim();
+            const correctPass = getRequiredPassword();
+            const errorMsg = document.getElementById('error-msg');
+            const passwordForm = document.getElementById('password-form');
+            const revealedMsg = document.getElementById('gift-revealed-msg');
+            const mainContent = document.getElementById('main-content');
+
+            if (userInput === correctPass) {
+                passwordForm.classList.add('hidden');
+                revealedMsg.classList.remove('hidden');
+                mainContent.classList.remove('hidden');
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        /* Allow pressing 'Enter' key in Password Input */
+        document.getElementById('pass-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        /* Music Player Controls */
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
+        const volumeIcon = document.getElementById('volume-icon');
+
+        /* Playlist ထဲတွင် သီချင်း နှစ်ပုဒ် (သို့) ပိုမို ထည့်သွင်းထားသည် */
+        const playlist = [
+            {
+                title: "Zenith",
+                artist: "Lullaby",
+                art: "https://i.pinimg.com/736x/f6/5c/3f/f65c3f9176a8521af6248ffdb3acd4d8.jpg",
+                src: "https://www.image2url.com/r2/default/audio/1793372124664-9765aa72-e392-46fe-a36a-b674be28c00e.mp3"
+            },
+            {
+                title: "Zenith",
+                artist: "Happy Birthday",
+                art: "https://i.pinimg.com/736x/1a/36/5d/1a365d67542c35cbd6e712bc14bcc66f.jpg",
+                src: "https://www.image2url.com/r2/default/audio/1793372174648-28f4c035-59c6-444d-bc7e-b224614b2ea9.mp3" // မိမိနှစ်သက်ရာ ဒုတိယသီချင်း Direct Audio Link ပြောင်းလဲနိုင်ပါသည်
+            }
+        ];
+
+        let currentTrackIndex = 0;
+
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                updatePlayState(true);
+            } else {
+                audio.pause();
+                updatePlayState(false);
+            }
+        }
+
+        function updatePlayState(isPlaying) {
+            if (isPlaying) {
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            } else {
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        }
+
+        function loadTrack(index) {
+            const track = playlist[index];
+            document.getElementById('track-title').innerText = track.title;
+            document.getElementById('track-artist').innerText = track.artist;
+            document.getElementById('track-art').src = track.art;
+            audio.src = track.src;
+            audio.load();
+        }
+
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            audio.play();
+            updatePlayState(true);
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            audio.play();
+            updatePlayState(true);
+        }
+
+        /* သီချင်းပြီးသွားပါက နောက်တစ်ပုဒ်သို့ အလိုအလျောက် ကူးပြောင်းမည် */
+        audio.addEventListener('ended', () => {
+            nextTrack();
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                progressBar.value = progressPercent;
+                currentTimeEl.innerText = formatTime(audio.currentTime);
+                totalDurationEl.innerText = formatTime(audio.duration);
+            }
+        });
+
+        progressBar.addEventListener('input', () => {
+            if (audio.duration) {
+                const seekTime = (progressBar.value / 100) * audio.duration;
+                audio.currentTime = seekTime;
+            }
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+
+        function toggleMute() {
+            audio.muted = !audio.muted;
+            if (audio.muted) {
+                volumeIcon.classList.remove('fa-volume-high');
+                volumeIcon.classList.add('fa-volume-xmark');
+            } else {
+                volumeIcon.classList.remove('fa-volume-xmark');
+                volumeIcon.classList.add('fa-volume-high');
+            }
+        }
+
+        /* Lightbox Modal Logic */
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const caption = element.getAttribute('data-caption');
+            const modal = document.getElementById('lightbox-modal');
+            
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox-caption').innerText = caption || 'Sweet Memory';
+            modal.classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        /* Falling GIF & Letter Trigger Logic */
+        function triggerFallingGif() {
+            const container = document.getElementById('falling-gif-container');
+            const gifElement = document.getElementById('falling-gif-element');
+            
+            container.classList.remove('hidden');
+            gifElement.classList.remove('falling-gif-anim');
+            void gifElement.offsetWidth;
+            gifElement.classList.add('falling-gif-anim');
+        }
+
+        function openLetterFromGif() {
+            document.getElementById('falling-gif-container').classList.add('hidden');
+            openLetterModal();
+        }
+
+        /* Letter Modal Logic */
+        function openLetterModal() {
+            document.getElementById('letter-modal').classList.remove('hidden');
+        }
+
+        function closeLetterModal() {
+            document.getElementById('letter-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
